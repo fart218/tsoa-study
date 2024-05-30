@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">  
+  <select id="get">
+    SELECT
+      id,
+      email,
+      name,
+      status,
+      phoneNumbers
+    FROM
+      user
+    WHERE
+      id = ${id}
+    <if test="name != null and name !=''">
+      AND name = #{name}
+    </if>
+  </select>
+
+  <select id="getTotalPage">
+    SELECT
+      ceil(count(1)/${limit}) totalPage
+    FROM
+      user
+    <where>
+      <if test="keyword != null and keyword !=''">
+        AND CONCAT(IFNULL(email, ""), IFNULL(name, "")) like '%${keyword}%'
+      </if>
+    </where>
+  </select>
+
+  <select id="getList">
+    SELECT
+      id,
+      email,
+      name,
+      status,
+      phoneNumbers
+    FROM
+      user
+    <where>
+      <if test="keyword != null and keyword !=''">
+        AND CONCAT(IFNULL(email, ""), IFNULL(name, "")) like '%${keyword}%'
+      </if>
+    </where>
+    ORDER BY
+      id
+    DESC
+    LIMIT
+      ${offset}, ${limit}
+  </select>
+</mapper>

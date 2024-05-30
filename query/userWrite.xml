@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">  
+  <insert id="create">
+    INSERT INTO
+      user
+    (
+      email,
+      name,
+      phoneNumbers
+    )
+    VALUES
+    (
+      #{email},
+      #{name},
+      #{phoneNumbers}
+    )
+  </insert>
+
+  <insert id="createBulk">
+    INSERT INTO
+      user
+    (
+      email,
+      name,
+      phoneNumbers
+    )
+    VALUES
+    <foreach collection="bulk" item="obj" separator=",">
+    (
+      #{obj.email},
+      #{obj.name},
+      #{obj.phoneNumbers}
+    )
+    </foreach>
+  </insert>
+</mapper>
